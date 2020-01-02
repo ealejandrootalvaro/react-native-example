@@ -1,13 +1,15 @@
 import React from 'react';
 import { 
     View,
-    TouchableHighlight 
+    TouchableHighlight,
+    Button
 } from 'react-native';
 import { NavigationStackProp } from 'react-navigation-stack';
 
 import { HotelType } from '../Entities/Hotel';
-
 import HotelCard from '../Components/Hotel/HotelCard';
+
+import TextInput from '../Components/Form/TextInput';
 
 type Props = {
     navigation: NavigationStackProp
@@ -37,6 +39,10 @@ export default class HomeScreen extends React.Component<Props> {
         title: 'Lista de Hoteles'
     }
 
+    state = {
+        search: ""
+    }
+
     renderHotels(hotels, navigate) {
         return hotels.map((hotel: HotelType, index) => (
             <TouchableHighlight key={index} style={{marginTop: 15}} onPress={() => navigate("Hotel", {hotel}) }>
@@ -55,7 +61,14 @@ export default class HomeScreen extends React.Component<Props> {
         const { navigate } = this.props.navigation;
         return (
             <View style={{backgroundColor: "#f1f1f1", padding: 10, minHeight: "100%"}}>
+                <TextInput
+                    value={this.state.search}
+                    onChangeText={text => this.setState({search: text})}
+                    placeholder={"Buscar Hotel"}
+                />
+                <Button title="Buscar" onPress={() => alert(this.state.search)} />
                 {this.renderHotels(hotels, navigate)}
+                
             </View>
         )
     }
